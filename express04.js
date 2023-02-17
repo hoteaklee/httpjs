@@ -3,6 +3,7 @@ const path = require('path');
 const logger = require('morgan');  // 로그 출력기
 const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser'); // 폼 처리기
+const oracledb = require('./models/Oracle');
 
 // 라우터 외부 작성
 const indexRouter = require('./routes/index');
@@ -39,6 +40,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());     //전송된 폼 데이터는 json형식
 //app.use(bodyParser.text());     //enctype이 text/paain일때 필요 (비추~)
 
+oracledb.initConn(); // 오라클 instant client 초기화
 
 // index에 대한 route handler 지정
 app.use('/', indexRouter);

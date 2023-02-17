@@ -1,10 +1,10 @@
 //index.js
 const express = require('express');
 const path = require('path');
-const router = express.Router();
-const oracledb = require('oracledb');
-const dbconfig = require('../dbconfig');
+const Sungjuk = require('../models/Sungjuk');
 
+
+const router = express.Router();
 
 
 // show index page
@@ -18,7 +18,7 @@ router.get('/sungjuk',(req,res)=>{
         res.render('sungjuk', {title: '성적처리'});
 });
 
-router.post('/sungjuk',async (req, res, next) => {
+router.post('/sungjuk', (req, res, next) => {
         // 폼으로 전송된 데이터들은 req.body, req.body.폼이름 등으로 확인 가능
         //console.log(req.body)
         //console.log(req.body.name, req.body.kor, req.body.eng, req.body.mat )
@@ -37,29 +37,9 @@ router.post('/sungjuk',async (req, res, next) => {
         console.log(tot, avg, grd);
 
         // 데이터베이스 처리 - sungjuk 테이블에 insert
-        let conn = null;
-        let sql = 'insert into sungjuk ' +
-            ' (sjno, name, kor, eng, mat, tot, avg, grd)' +
-            ' values(sjno.nextval, :1, :2, :3, :4, :5, :6, :7)';
-        let params = [name, kor, eng, mat, tot, avg, grd];
+       new Sungjuk(name,kor,eng,mat,tot,avg,grd).insert();
 
-        try {
-                oracledb.initOracleClient({libDir: 'C:/Java/instantclient_19_17'});
-                conn = await oracledb.getConnection(dbconfig);
-                let result = conn.execute(sql, params);
-                await conn.commit();
-                console.log(result)
 
-        } catch (e) {
-                console.log(e);
-        } finally {
-                if (conn) {
-                        try { await conn.close(); } catch (e) {
-                                console.log(e);
-                                console.error(e);
-                        }
-                }
-        }
 
 
         res.redirect(304, '/');
