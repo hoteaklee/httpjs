@@ -15,7 +15,9 @@
     <!-- 리스트행 시작-->
 
     {{#sjs}}
-    <tr><td>{{sjno}}</td><td>{{name}}</td><td>{{kor}}</td><td>{{eng}}</td>
+    <tr><td>{{sjno}}</td>
+        <td><a href="/viewsungjuk?sjno={{sjno}}">{{name}}</a></td>
+        <td>{{kor}}</td><td>{{eng}}</td>
         <td>{{mat}}</td><td>{{regdate}}</td></tr>
     {{/sjs}}
 </table>

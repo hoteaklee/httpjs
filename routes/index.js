@@ -50,6 +50,14 @@ router.get('/showsungjuk',async (req,res)=>{
         res.render('showsungjuk', {title: '성적전체보기',sjs: await sjs});
 });
 
+router.get('/viewsungjuk',async (req,res)=>{
+        let sjno = req.query.sjno;  // querystring의 매개변수 추출
+        let sjs = new Sungjuk().selectOne(sjno).then(async result =>{return await result; });
+        console.log(await sjs);
+
+        res.render('viewsungjuk', {title: '성적전체보기',sjs: await sjs});
+});
+
 
 
 //단순한 그림파일을 화면에 표시하기 위해
