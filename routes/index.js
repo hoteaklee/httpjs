@@ -40,9 +40,14 @@ router.post('/sungjuk', (req, res, next) => {
        new Sungjuk(name,kor,eng,mat,tot,avg,grd).insert();
 
 
-
-
         res.redirect(304, '/');
+});
+
+router.get('/showsungjuk',async (req,res)=>{
+        let sjs = new Sungjuk().select().then(async result =>{return await result; });
+        console.log(await sjs);
+
+        res.render('showsungjuk', {title: '성적전체보기',sjs: await sjs});
 });
 
 
